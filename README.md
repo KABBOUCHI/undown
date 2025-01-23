@@ -20,13 +20,26 @@ yarn add undown
 pnpm install undown
 ```
 
-Import:
+Basic usage:
 
 ```vue
 <script setup lang="tsx">
-import { defineComponent } from "vue";
 import { Markdown } from "undown";
-import type { MarkdownPlugin, MarkdownComponents } from "undown";
+
+const content = "# Hello, World!";
+</script>
+
+<template>
+  <Markdown :content />
+</template>
+```
+
+With plugins:
+
+```vue
+<script setup lang="tsx">
+import { Markdown } from "undown";
+import type { MarkdownPlugin } from "undown";
 import { alert } from "@mdit/plugin-alert";
 import { tasklist } from "@mdit/plugin-tasklist";
 
@@ -40,6 +53,30 @@ const plugins: MarkdownPlugin[] = [
     },
   ],
 ];
+</script>
+
+<template>
+  <Markdown :content :plugins />
+</template>
+```
+
+With components:
+
+```vue
+<script setup lang="tsx">
+import { defineComponent } from "vue";
+import { Markdown } from "undown";
+import type { MarkdownPlugin, MarkdownComponents } from "undown";
+import { alert } from "@mdit/plugin-alert";
+import { tasklist } from "@mdit/plugin-tasklist";
+
+const content = `# Hello, World!
+
+\`\`\`js
+console.log("Hello, World!");
+\`\`\`
+
+<Counter />`;
 const components: MarkdownComponents = {
   pre: (_props, { slots }) => {
     return h("pre", slots.default?.());
@@ -61,7 +98,7 @@ const components: MarkdownComponents = {
 </script>
 
 <template>
-  <Markdown :content :components :plugins />
+  <Markdown :content :components />
 </template>
 ```
 
